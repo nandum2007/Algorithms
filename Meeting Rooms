@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <vector>
+#include <queue>
+#include <algorithm>
+#include <utility>
+
+vector<pair<int,int>> meetings(int s[], int e[]);
+
+int main() {
+	//code
+	
+	vector<pair<int,int>> output ;
+	output = meetings({1,3,0,5,8,5},{2,4,6,7,9,9});
+	
+	for(int i = 0 ; i < output.size() ; i++)
+	    cout<<output[i].first<<" "<<output[i].second<<endl;
+	return 0;
+}
+
+struct compa{
+  
+  bool operator()(pair<int,int>a , pair<int,int>b){
+      if(a.second == b.second){
+          
+          return a.first > b.first;
+      }
+      
+      return a.second < b.second;
+      
+  }  
+};
+
+vector<pair<int,int>> meetings(int s[], int e[]){
+    
+    priority_queue<pair<int,int>,vector<pair<int,int>>,compa>pq;
+    
+    int current_last = -1;
+    
+    vector<pair<int,int>> output;
+    
+    while(!pq.empty()){
+        if(pq.top().first < current_last){
+            pq.pop();
+            continue;
+        }
+        
+        
+        current_last = pq.top().second;
+        
+        output.pus_back(pq.top());
+        pq.pop();
+        
+        
+    }
+    
+    
+    return output;
+    
+}
