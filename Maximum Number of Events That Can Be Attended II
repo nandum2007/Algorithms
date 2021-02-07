@@ -1,0 +1,41 @@
+class Solution {
+public:
+    
+    //vector<vector<int>>map;
+    unordered_map<string,int>map;
+    int maxValue(vector<vector<int>>& events, int k , int start ) {
+        
+        if(k == 0){
+            return 0;
+        }
+        string key = to_string(k) + ","+to_string(start);
+        
+        if(map.find(key)!= map.end()){
+            return map[key];
+        }
+        
+        int maxi = 0;
+        for(int i = 0 ; i < events.size() ; i++){
+           
+            if(events[i][0] <= start){
+                continue;
+            }
+            maxi = max(maxi,events[i][2]+maxValue(events,k-1,events[i][1]));
+            
+        }
+        
+       
+        return map[key] = maxi;
+    }
+    /*
+    bool compa(vector<vector<int>>a , vector<vector<int>>b){
+        return a[0] < b[0];
+    }
+    */
+    int maxValue(vector<vector<int>>& events, int k) {
+        //map.resize(1000001,vector<int>(1000000001,-1));
+        sort(events.begin(),events.end(),[](auto a , auto b){return a[0]<b[0];});
+        return maxValue(events,k,-1);
+        
+    }
+};
